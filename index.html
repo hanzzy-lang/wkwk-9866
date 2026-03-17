@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Surabaya Ramadan | Jadwal Sholat & Imsakiyah</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        :root {
+            --green-primary: #0b5e3c;
+            --green-secondary: #1e8a5a;
+            --gold: #ffd966;
+            --gold-dark: #f1c40f;
+            --cream: #fff3b8;
+            --dark-green: #0a4a30;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--green-primary), var(--green-secondary));
+            min-height: 100vh;
+            padding: clamp(12px, 3vw, 24px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1400px;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 48px;
+            padding: clamp(20px, 4vw, 36px);
+            border: 2px solid rgba(255,215,0,0.3);
+            box-shadow: 0 30px 60px rgba(0,20,0,0.5);
+        }
+
+        .sby-header {
+            background: linear-gradient(rgba(0,60,30,0.85), rgba(0,40,20,0.95)), url('https://files.catbox.moe/xq37bz.jpg');
+            background-size: cover;
+            background-position: center 40%;
+            border-radius: 32px;
+            padding: clamp(24px, 6vw, 48px) 20px;
+            text-align: center;
+            border: 3px solid var(--gold);
+            margin-bottom: clamp(20px, 4vw, 28px);
+        }
+
+        .sby-header h1 {
+            font-size: clamp(2rem, 7vw, 4rem);
+            color: var(--cream);
+            text-shadow: 3px 3px 0 var(--dark-green);
+            margin-bottom: 8px;
+        }
+
+        .sby-header h2 {
+            font-size: clamp(1.6rem, 5vw, 2.8rem);
+            color: white;
+            text-shadow: 2px 2px 0 var(--dark-green);
+            margin-bottom: 16px;
+        }
+
+        .sby-badge {
+            background: var(--gold-dark);
+            color: var(--dark-green);
+            padding: clamp(8px, 2vw, 12px) clamp(20px, 5vw, 40px);
+            border-radius: 60px;
+            display: inline-block;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-weight: bold;
+            border: 2px solid white;
+            box-shadow: 0 6px 0 #b38f00;
+        }
+
+        /* ===== RUN TEXT SUPER LAMBAT ===== */
+        .runtext-wrap {
+            background: #1f6e4e;
+            border-radius: 60px;
+            padding: 18px 0;
+            margin: 20px 0 28px;
+            border: 3px solid var(--gold);
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            width: 100%;
+            height: 80px;
+            display: flex;
+            align-items: center;
+        }
+
+        .runtext-track {
+            display: flex;
+            white-space: nowrap;
+            animation: scrollSuperLambat 120s linear infinite;
+            will-change: transform;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .runtext-content {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--cream);
+            text-shadow: 2px 2px 0 #1b4d33;
+            padding: 0 20px;
+        }
+
+        @keyframes scrollSuperLambat {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @media (max-width: 600px) {
+            .runtext-wrap {
+                height: 60px;
+            }
+            .runtext-content {
+                font-size: 1.2rem;
+            }
+            .runtext-track {
+                animation: scrollSuperLambat 80s linear infinite;
+            }
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: clamp(12px, 2.5vw, 20px);
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 32px;
+            padding: clamp(16px, 3vw, 24px);
+            margin: 24px 0;
+            border-left: 10px solid var(--gold-dark);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.15);
+        }
+
+        .info-item {
+            background: linear-gradient(145deg, #ffffff, #f5fff5);
+            border-radius: 24px;
+            padding: clamp(14px, 2.5vw, 20px) 10px;
+            text-align: center;
+            box-shadow: 0 6px 0 #2d7a5b;
+        }
+
+        .info-item .label {
+            color: #1a6e49;
+            font-weight: 700;
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            margin-bottom: 6px;
+        }
+
+        .info-item .value {
+            font-size: clamp(1.4rem, 4vw, 2.2rem);
+            font-weight: 900;
+            color: #05472e;
+            line-height: 1.2;
+        }
+
+        .timer-section {
+            background: linear-gradient(145deg, #f9d56e, #f8c150);
+            border-radius: 36px;
+            padding: clamp(20px, 5vw, 32px);
+            margin-bottom: 28px;
+            border: 4px solid #fff1b8;
+            box-shadow: 0 20px 30px rgba(0,0,0,0.2);
+        }
+
+        .imsak-buka-row {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: clamp(12px, 3vw, 24px);
+            margin-bottom: 24px;
+        }
+
+        .imsak-buka-row div {
+            background: white;
+            padding: clamp(8px, 2vw, 12px) clamp(20px, 5vw, 40px);
+            border-radius: 50px;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-weight: bold;
+            box-shadow: 0 6px 0 #b38f2e;
+            border: 2px solid white;
+        }
+
+        .timer-row {
+            display: flex;
+            justify-content: center;
+            gap: clamp(16px, 4vw, 32px);
+            flex-wrap: wrap;
+        }
+
+        .timer-box {
+            background: white;
+            padding: clamp(12px, 3vw, 20px) clamp(16px, 4vw, 30px);
+            border-radius: 40px;
+            min-width: clamp(90px, 20vw, 150px);
+            text-align: center;
+            box-shadow: 0 10px 0 #aa8439;
+            border: 2px solid white;
+        }
+
+        .timer-number {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 900;
+            color: #155a3b;
+            line-height: 1;
+        }
+
+        .timer-label {
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            color: #1a5f3e;
+            font-weight: 700;
+        }
+
+        .puasa-status-text {
+            margin-top: 20px;
+            font-size: clamp(1.4rem, 4vw, 2rem);
+            font-weight: bold;
+            color: #1b4d33;
+            text-align: center;
+        }
+
+        .sholat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: clamp(12px, 2.5vw, 20px);
+            margin: 28px 0;
+        }
+
+        .sholat-card {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 28px;
+            padding: clamp(14px, 3vw, 20px) 8px;
+            text-align: center;
+            box-shadow: 0 10px 0 #2a704a;
+            border: 2px solid #ffdb8b;
+            transition: all 0.3s;
+        }
+
+        .sholat-card.imsak-card {
+            background: linear-gradient(145deg, #ffe8c7, #ffdbb5);
+            border-color: #f1a10f;
+        }
+
+        .sholat-card.active-sholat {
+            border-color: var(--gold-dark);
+            background: linear-gradient(145deg, #fff9cf, #fff3b0);
+            transform: scale(1.03);
+            box-shadow: 0 13px 0 #b39234;
+        }
+
+        .sholat-card .name {
+            font-size: clamp(1.4rem, 4vw, 2rem);
+            font-weight: 800;
+            color: #1f6e4c;
+            margin-bottom: 6px;
+        }
+
+        .sholat-card .time-display {
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            font-weight: 900;
+            color: #033b22;
+            margin: 8px 0;
+        }
+
+        .sholat-card .remaining-time {
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            color: #c95f0c;
+            font-weight: 700;
+            background: rgba(255,255,255,0.7);
+            padding: 4px 12px;
+            border-radius: 30px;
+            display: inline-block;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 24px;
+            color: rgba(255,255,255,0.9);
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            padding: 12px;
+            border-top: 1px solid rgba(255,215,0,0.3);
+        }
+
+        .audio-player {
+            display: none;
+        }
+
+        @media (min-width: 1200px) {
+            .sholat-grid {
+                grid-template-columns: repeat(6, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header Surabaya -->
+        <div class="sby-header">
+            <h1>🌙 Ramadan 1447 H</h1>
+            <h2>Kota Surabaya</h2>
+            <div class="sby-badge">🇮🇩 Jawa Timur - Kota Pahlawan</div>
+        </div>
+
+        <!-- RUN TEXT SUPER LAMBAT -->
+        <div class="runtext-wrap">
+            <div class="runtext-track" id="runtextTrack">
+                <span class="runtext-content" id="runtextSpan1"></span>
+                <span class="runtext-content" id="runtextSpan2"></span>
+            </div>
+        </div>
+
+        <!-- Info Panel -->
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="label">📅 Hijriah</div>
+                <div class="value" id="hijriahDisplay">--</div>
+            </div>
+            <div class="info-item">
+                <div class="label">⏰ Waktu</div>
+                <div class="value" id="jamDisplay">--:--</div>
+            </div>
+            <div class="info-item">
+                <div class="label">📍 Wilayah</div>
+                <div class="value" id="wilayahDisplay">Surabaya</div>
+            </div>
+            <div class="info-item">
+                <div class="label">🌅 Imsak/Buka</div>
+                <div class="value" id="imsakBukaDisplay">--:--/--:--</div>
+            </div>
+        </div>
+
+        <!-- Timer Puasa (Hanya Jam & Menit) -->
+        <div class="timer-section">
+            <div class="imsak-buka-row">
+                <div>🌅 Imsak: <span id="imsakTime">--:--</span></div>
+                <div>🍽️ Buka: <span id="bukaTime">--:--</span></div>
+                <div>⭐ Maghrib: <span id="maghribTime">--:--</span></div>
+            </div>
+            <div class="timer-row">
+                <div class="timer-box">
+                    <div class="timer-number" id="puasaJam">00</div>
+                    <div class="timer-label">Jam</div>
+                </div>
+                <div class="timer-box">
+                    <div class="timer-number" id="puasaMenit">00</div>
+                    <div class="timer-label">Menit</div>
+                </div>
+            </div>
+            <div class="puasa-status-text" id="puasaStatus">⏳ Menghitung...</div>
+        </div>
+
+        <!-- Sholat Grid -->
+        <div class="sholat-grid" id="sholatGrid"></div>
+
+        <!-- Footer -->
+        <div class="footer">
+            ⭐ Data jadwal sholat otomatis update setiap hari ⭐
+        </div>
+    </div>
+
+    <!-- Audio Player -->
+    <div class="audio-player">
+        <audio id="adzanSubuh" preload="auto">
+            <source src="adzan/adzan-subuh.mp3" type="audio/mpeg">
+            <source src="https://files.catbox.moe/un4swi.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="adzanUmum" preload="auto">
+            <source src="adzan/adzan-umum.mp3" type="audio/mpeg">
+            <source src="https://files.catbox.moe/0h51lq.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <script>
+        (function() {
+            // ===================== KONFIGURASI =====================
+            const KOTA = 'Surabaya';
+            const KOTA_ID = '1453'; // ID Surabaya untuk API myQuran
+
+            // ===================== STATE =====================
+            let jadwalSholat = [];
+            let adzanSubuh = document.getElementById('adzanSubuh');
+            let adzanUmum = document.getElementById('adzanUmum');
+            let adzanTerakhirDimainkan = '';
+            let notifikasiDiizinkan = false;
+            let tanggalHariIni = '';
+            
+            // TEKS DEFAULT - SATU TEKS PANJANG (TIDAK BERUBAH)
+            const DEFAULT_TEXT = "✨ Selamat menunaikan ibadah puasa Ramadan untuk warga Surabaya dan sekitarnya ||| 🌙 Bulan penuh berkah, perbanyak doa dan amal ibadah ||| 🕋 Surabaya kota pahlawan, semangat beribadah di bulan suci ||| ⭐ Jangan lupa perbanyak sedekah dan tadarus Al-Qur'an ||| 🙏 Mohon maaf lahir dan batin ||| 🌟 Semoga puasa kita diterima dan diberikan keberkahan ||| 📿 Perbanyak istighfar dan doa di waktu mustajab ||| 🌅 Imsak sebentar lagi, persiapkan sahur dengan baik ||| 🍽️ Menjelang berbuka, perbanyak doa ||| ⏰ Jangan tinggalkan sholat tepat waktu ||| 🕌 Masjid-masjid di Surabaya siap menyambut jamaah ||| ✨ Semoga Allah SWT menerima semua amal ibadah kita ||| 🌙 Ramadan adalah bulan pengampunan ||| 🤲 Doakan saudara-saudara kita ||| 📖 Bacalah Al-Qur'an setiap hari ||| ";
+
+            // Nama hari dan bulan Indonesia
+            const namaHari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const namaBulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            const namaBulanHijriah = ['Muharram', 'Safar', 'Rabiul Awal', 'Rabiul Akhir', 'Jumadil Awal', 'Jumadil Akhir', 'Rajab', 'Sya\'ban', 'Ramadan', 'Syawal', 'Dzulqa\'dah', 'Dzulhijjah'];
+
+            // Elemen runtext
+            const runtextSpan1 = document.getElementById('runtextSpan1');
+            const runtextSpan2 = document.getElementById('runtextSpan2');
+
+            // Elemen lain
+            const hijriahDisplay = document.getElementById('hijriahDisplay');
+            const jamDisplay = document.getElementById('jamDisplay');
+            const wilayahDisplay = document.getElementById('wilayahDisplay');
+            const imsakBukaDisplay = document.getElementById('imsakBukaDisplay');
+            const imsakTime = document.getElementById('imsakTime');
+            const bukaTime = document.getElementById('bukaTime');
+            const maghribTime = document.getElementById('maghribTime');
+            const puasaJam = document.getElementById('puasaJam');
+            const puasaMenit = document.getElementById('puasaMenit');
+            const puasaStatus = document.getElementById('puasaStatus');
+            const sholatGrid = document.getElementById('sholatGrid');
+
+            // ===================== NOTIFIKASI =====================
+            if (Notification.permission === 'default') {
+                Notification.requestPermission().then(p => notifikasiDiizinkan = p === 'granted');
+            } else {
+                notifikasiDiizinkan = Notification.permission === 'granted';
+            }
+
+            // ===================== PRELOAD AUDIO =====================
+            function preloadAudio() {
+                [adzanSubuh, adzanUmum].forEach(audio => {
+                    if (audio) {
+                        audio.load();
+                        audio.volume = 0.01;
+                        audio.play().then(() => {
+                            audio.pause();
+                            audio.currentTime = 0;
+                            audio.volume = 1.0;
+                        }).catch(() => {});
+                    }
+                });
+            }
+
+            // ===================== FORMAT TANGGAL LENGKAP =====================
+            function getFormattedDate() {
+                const d = new Date();
+                return `${namaHari[d.getDay()]}, ${d.getDate()} ${namaBulan[d.getMonth()]} ${d.getFullYear()}`;
+            }
+
+            // ===================== API JADWAL =====================
+            async function ambilJadwal() {
+                const tgl = new Date();
+                const thn = tgl.getFullYear();
+                const bln = String(tgl.getMonth() + 1).padStart(2, '0');
+                const hr = String(tgl.getDate()).padStart(2, '0');
+                const tanggalStr = `${thn}-${bln}-${hr}`;
+                
+                // Cek apakah tanggal sudah berganti
+                if (tanggalHariIni !== tanggalStr) {
+                    tanggalHariIni = tanggalStr;
+                    console.log('Mengupdate jadwal untuk tanggal:', tanggalStr);
+                } else {
+                    // Jika masih tanggal sama, tidak perlu ambil data lagi
+                    return null;
+                }
+                
+                try {
+                    // API myQuran untuk jadwal sholat
+                    const url = `https://api.myquran.com/v2/sholat/jadwal/${KOTA_ID}/${thn}/${bln}/${hr}`;
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    
+                    if (data.status && data.data) {
+                        return {
+                            imsak: data.data.jadwal.imsak,
+                            subuh: data.data.jadwal.subuh,
+                            dzuhur: data.data.jadwal.dzuhur,
+                            ashar: data.data.jadwal.ashar,
+                            maghrib: data.data.jadwal.maghrib,
+                            isya: data.data.jadwal.isya,
+                            tanggal: data.data.jadwal.tanggal,
+                            hijriah: data.data.jadwal.hijriah
+                        };
+                    }
+                } catch (e) {
+                    console.log('Gagal ambil jadwal dari myQuran, coba API cadangan...');
+                }
+                
+                // API cadangan
+                try {
+                    const backupUrl = `https://api.aladhan.com/v1/timingsByCity?city=Surabaya&country=ID&method=20`;
+                    const response = await fetch(backupUrl);
+                    const data = await response.json();
+                    
+                    if (data.code === 200) {
+                        const hijri = data.data.date.hijri;
+                        return {
+                            imsak: data.data.timings.Imsak,
+                            subuh: data.data.timings.Fajr,
+                            dzuhur: data.data.timings.Dhuhr,
+                            ashar: data.data.timings.Asr,
+                            maghrib: data.data.timings.Maghrib,
+                            isya: data.data.timings.Isha,
+                            tanggal: data.data.date.readable,
+                            hijriah: `${hijri.day} ${hijri.month.en} ${hijri.year} H`
+                        };
+                    }
+                } catch (e) {
+                    console.log('Semua API gagal, gunakan data default');
+                }
+                
+                // Data default (hanya sebagai fallback)
+                return {
+                    imsak: '04:09',
+                    subuh: '04:19',
+                    dzuhur: '11:41',
+                    ashar: '14:50',
+                    maghrib: '17:45',
+                    isya: '18:54',
+                    tanggal: tanggalStr,
+                    hijriah: '17 Ramadan 1447 H'
+                };
+            }
+
+            // ===================== PROSES JADWAL =====================
+            function prosesJadwal(data) {
+                if (!data) return [];
+                
+                const today = new Date();
+                today.setHours(0,0,0,0);
+                
+                const buatDate = (w) => {
+                    if (!w) return new Date(today);
+                    const [h,m] = w.split(':').map(Number);
+                    const d = new Date(today);
+                    d.setHours(h,m,0,0);
+                    return d;
+                };
+                
+                const subuhDate = buatDate(data.subuh);
+                const imsakDate = new Date(subuhDate.getTime() - 10*60000);
+                
+                return [
+                    { nama: 'Imsak', waktu: imsakDate, arab: 'إمساك' },
+                    { nama: 'Subuh', waktu: subuhDate, arab: 'صبح' },
+                    { nama: 'Dzuhur', waktu: buatDate(data.dzuhur), arab: 'ظهر' },
+                    { nama: 'Ashar', waktu: buatDate(data.ashar), arab: 'عصر' },
+                    { nama: 'Maghrib', waktu: buatDate(data.maghrib), arab: 'مغرب' },
+                    { nama: 'Isya', waktu: buatDate(data.isya), arab: 'عشاء' }
+                ];
+            }
+
+            // ===================== UPDATE JADWAL =====================
+            async function updateJadwal() {
+                const data = await ambilJadwal();
+                
+                // Jika data null (masih tanggal sama), tidak perlu update
+                if (!data) return false;
+                
+                // Proses jadwal sholat
+                jadwalSholat = prosesJadwal(data);
+                jadwalSholat.sort((a,b) => a.waktu - b.waktu);
+                
+                // Update hijriah
+                if (data.hijriah) {
+                    hijriahDisplay.innerText = data.hijriah;
+                }
+                
+                // Render ulang jadwal
+                renderJadwal();
+                
+                // Update imsak & buka
+                const imsak = jadwalSholat.find(s => s.nama === 'Imsak')?.waktu;
+                const maghrib = jadwalSholat.find(s => s.nama === 'Maghrib')?.waktu;
+                
+                if (imsak && maghrib) {
+                    const imsStr = imsak.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
+                    const magStr = maghrib.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
+                    imsakTime.innerText = imsStr;
+                    bukaTime.innerText = magStr;
+                    maghribTime.innerText = magStr;
+                    imsakBukaDisplay.innerText = imsStr + ' / ' + magStr;
+                }
+                
+                return true;
+            }
+
+            // ===================== RENDER JADWAL =====================
+            function renderJadwal() {
+                sholatGrid.innerHTML = '';
+                jadwalSholat.forEach(s => {
+                    const waktuStr = s.waktu.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
+                    const card = document.createElement('div');
+                    card.className = `sholat-card ${s.nama === 'Imsak' ? 'imsak-card' : ''}`;
+                    card.id = `card-${s.nama.toLowerCase()}`;
+                    card.innerHTML = `
+                        <div class="name">${s.nama} <span style="font-size:0.8rem;">${s.arab}</span></div>
+                        <div class="time-display">${waktuStr}</div>
+                        <div class="remaining-time" id="rem-${s.nama.toLowerCase()}">-</div>
+                    `;
+                    sholatGrid.appendChild(card);
+                });
+            }
+
+            // ===================== UPDATE TIMER PUASA (JAM & MENIT SAJA) =====================
+            function updateTimerPuasa() {
+                const now = new Date();
+                
+                if (jadwalSholat.length === 0) return;
+                
+                const imsak = jadwalSholat.find(s => s.nama === 'Imsak')?.waktu;
+                const maghrib = jadwalSholat.find(s => s.nama === 'Maghrib')?.waktu;
+                
+                if (imsak && maghrib) {
+                    if (now >= imsak && now < maghrib) {
+                        // Sedang berpuasa
+                        const sisa = maghrib - now;
+                        const jam = Math.floor(sisa / 3600000);
+                        const menit = Math.floor((sisa % 3600000) / 60000);
+                        
+                        puasaJam.innerText = jam.toString().padStart(2, '0');
+                        puasaMenit.innerText = menit.toString().padStart(2, '0');
+                        puasaStatus.innerText = '🌙 Sedang Berpuasa';
+                    } else if (now < imsak) {
+                        // Menjelang imsak
+                        const sisa = imsak - now;
+                        const jam = Math.floor(sisa / 3600000);
+                        const menit = Math.floor((sisa % 3600000) / 60000);
+                        
+                        puasaJam.innerText = jam.toString().padStart(2, '0');
+                        puasaMenit.innerText = menit.toString().padStart(2, '0');
+                        puasaStatus.innerText = '⏰ Menjelang Imsak';
+                    } else {
+                        // Waktu berbuka
+                        puasaJam.innerText = '00';
+                        puasaMenit.innerText = '00';
+                        puasaStatus.innerText = '🍽️ Waktu Berbuka';
+                    }
+                }
+            }
+
+            // ===================== UPDATE SISA WAKTU SHOLAT =====================
+            function updateSisaWaktuSholat() {
+                const now = new Date();
+                
+                if (jadwalSholat.length > 0) {
+                    jadwalSholat.forEach(s => {
+                        const remEl = document.getElementById(`rem-${s.nama.toLowerCase()}`);
+                        if (remEl) {
+                            if (s.waktu > now) {
+                                const diff = s.waktu - now;
+                                const jam = Math.floor(diff / 3600000);
+                                const menit = Math.floor((diff % 3600000) / 60000);
+                                
+                                if (jam > 0) {
+                                    remEl.innerText = `${jam}j ${menit}m`;
+                                } else {
+                                    remEl.innerText = `${menit}m`;
+                                }
+                            } else {
+                                remEl.innerText = '✓';
+                            }
+                        }
+                    });
+                }
+            }
+
+            // ===================== UPDATE RUNTEXT ANTI BLINK =====================
+            function updateRuntext() {
+                const now = new Date();
+                
+                // Cek apakah ada sholat yang aktif (5 menit setelah waktu tiba)
+                let activePrayer = null;
+                let activeTime = null;
+                
+                for (let s of jadwalSholat) {
+                    if (s.nama !== 'Imsak') {
+                        const start = s.waktu;
+                        const end = new Date(start.getTime() + 5 * 60000);
+                        if (now >= start && now <= end) {
+                            activePrayer = s.nama;
+                            activeTime = s.waktu;
+                            break;
+                        }
+                    }
+                }
+
+                // Buat teks berdasarkan status
+                let teks = '';
+                
+                if (activePrayer) {
+                    // Mode adzan
+                    const jam = activeTime.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
+                    teks = `🕌 Waktu sholat daerah Surabaya telah di mulai - ${activePrayer} pukul ${jam} WIB 🕌 ||| `.repeat(5);
+                    
+                    // Putar adzan hanya pada detik pertama
+                    const waktuSholatStr = activeTime.toTimeString().slice(0,5);
+                    const currentTimeStr = now.toTimeString().slice(0,5);
+                    if (waktuSholatStr === currentTimeStr && adzanTerakhirDimainkan !== activePrayer) {
+                        const audio = activePrayer === 'Subuh' ? adzanSubuh : adzanUmum;
+                        if (audio) {
+                            audio.currentTime = 0;
+                            audio.play().catch(() => {
+                                if (confirm(`Waktu ${activePrayer} telah tiba. Izinkan adzan?`)) audio.play();
+                            });
+                        }
+                        if (notifikasiDiizinkan) {
+                            new Notification(`Waktu Sholat ${activePrayer} - Surabaya`, {
+                                body: `Waktu sholat ${activePrayer} pukul ${jam} WIB telah tiba.`,
+                                icon: 'https://files.catbox.moe/xq37bz.jpg'
+                            });
+                        }
+                        adzanTerakhirDimainkan = activePrayer;
+                        
+                        // Sorot card yang aktif
+                        document.querySelectorAll('.sholat-card').forEach(c => c.classList.remove('active-sholat'));
+                        const activeCard = document.getElementById(`card-${activePrayer.toLowerCase()}`);
+                        if (activeCard) activeCard.classList.add('active-sholat');
+                    }
+                } else {
+                    // Mode default - teks tetap
+                    teks = DEFAULT_TEXT;
+                }
+
+                // Update teks runtext hanya jika berubah
+                if (runtextSpan1.textContent !== teks) {
+                    runtextSpan1.textContent = teks;
+                    runtextSpan2.textContent = teks;
+                }
+            }
+
+            // ===================== UPDATE JAM DISPLAY =====================
+            function updateJamDisplay() {
+                const now = new Date();
+                jamDisplay.innerText = now.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
+            }
+
+            // ===================== CEK PERGANTIAN HARI =====================
+            function cekPergantianHari() {
+                const now = new Date();
+                const jam = now.getHours();
+                const menit = now.getMinutes();
+                
+                // Cek apakah sudah jam 00:01 (lewat tengah malam)
+                if (jam === 0 && menit === 1) {
+                    console.log('Deteksi pergantian hari, update jadwal...');
+                    updateJadwal();
+                }
+            }
+
+            // ===================== UPDATE SEMUA =====================
+            function updateSemua() {
+                updateJamDisplay();
+                updateTimerPuasa();
+                updateSisaWaktuSholat();
+                updateRuntext();
+                cekPergantianHari();
+            }
+
+            // ===================== INIT =====================
+            async function init() {
+                wilayahDisplay.innerText = KOTA;
+                
+                // Ambil jadwal pertama kali
+                await updateJadwal();
+                
+                // Isi awal runtext dengan default
+                runtextSpan1.textContent = DEFAULT_TEXT;
+                runtextSpan2.textContent = DEFAULT_TEXT;
+                
+                // Update pertama kali
+                updateSemua();
+                
+                // Set interval untuk update setiap detik
+                setInterval(updateSemua, 1000);
+                
+                // Update jadwal setiap jam (untuk jaga-jaga)
+                setInterval(updateJadwal, 3600000);
+                
+                setTimeout(preloadAudio, 1000);
+            }
+
+            init();
+        })();
+    </script>
+</body>
+  </html>
